@@ -2,21 +2,20 @@
 #define SENSORTHREAD_H
 #include <QtCore>
 
-class SensorThread : public QThread
+class SensorReader : public QThread
 {
     Q_OBJECT
+
 public:
-    SensorThread();
+    SensorReader();
     void run();
 
 public Q_SLOTS:
-    void calc();
+    void readSensor();
 
 Q_SIGNALS:
-    void message(QString);
+    void messageSensor(QString);
 
-public:
-    int *pnt;
 };
 
 #endif // SENSORTHREAD_H

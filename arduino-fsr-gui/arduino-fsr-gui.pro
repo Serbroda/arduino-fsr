@@ -2,9 +2,9 @@ QT += charts
 
 SOURCES += \
     main.cpp \
-    sensorthread.cpp \
-    qtsensorgraph.cpp
+    qtsensorgraph.cpp \
+    sensorreader.cpp
 
 HEADERS += \
-    sensorthread.h \
-    qtsensorgraph.h
+    qtsensorgraph.h \
+    sensorreader.h

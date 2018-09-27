@@ -1,7 +1,8 @@
 #include "qtsensorgraph.h"
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
-#include "sensorthread.h"
+#include "sensorreader.h"
+#include <QDebug>
 
 QtSensorGraph::QtSensorGraph(QWidget *parent) : QMainWindow (parent)
 {
@@ -35,9 +36,8 @@ QtSensorGraph::QtSensorGraph(QWidget *parent) : QMainWindow (parent)
     chartView->setRenderHint(QPainter::Antialiasing);
 
     this->setCentralWidget(chartView);
+}
 
-    SensorThread sensorThread;
-    sensorThread.start();
-
-
+void QtSensorGraph::onValue(QString val) {
+    qDebug() << "Got value " << val << " on window";
 }

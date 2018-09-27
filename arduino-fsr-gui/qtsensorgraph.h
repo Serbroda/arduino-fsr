@@ -14,7 +14,9 @@ class QtSensorGraph : public QMainWindow
 
 public:
     QtSensorGraph(QWidget *parent = Q_NULLPTR);
-    //QSerialPort serial;
+
+public Q_SLOTS:
+    void onValue(QString);
 
 private:
 
