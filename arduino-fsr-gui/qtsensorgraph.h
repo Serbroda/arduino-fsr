@@ -19,6 +19,8 @@ public Q_SLOTS:
     void onValue(QString);
 
 private:
+    QLineSeries *series;
+    QChart *chart;
 
 };
 

@@ -6,18 +6,7 @@
 
 QtSensorGraph::QtSensorGraph(QWidget *parent) : QMainWindow (parent)
 {
-    /*serial.setPortName("COM3");
-    serial.open(QIODevice::ReadWrite);
-    serial.setBaudRate(QSerialPort::Baud9600);
-    serial.setDataBits(QSerialPort::Data8);
-    serial.setParity(QSerialPort::NoParity);
-    serial.setStopBits(QSerialPort::OneStop);
-    serial.setFlowControl(QSerialPort::NoFlowControl);
-    while (!serial.isOpen()) {
-        serial.open(QIODevice::ReadWrite);
-    }*/
-
-    QLineSeries *series = new QLineSeries();
+    series = new QLineSeries();
 
     series->append(0, 6);
     series->append(2, 4);
@@ -26,7 +15,7 @@ QtSensorGraph::QtSensorGraph(QWidget *parent) : QMainWindow (parent)
     series->append(10, 5);
     *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
 
-    QChart *chart = new QChart();
+    chart = new QChart();
     chart->legend()->hide();
     chart->addSeries(series);
     chart->createDefaultAxes();
@@ -40,4 +29,6 @@ QtSensorGraph::QtSensorGraph(QWidget *parent) : QMainWindow (parent)
 
 void QtSensorGraph::onValue(QString val) {
     qDebug() << "Got value " << val << " on window";
+    series->remove(0);
+    series->append(11, 4);
 }

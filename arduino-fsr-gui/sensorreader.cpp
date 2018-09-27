@@ -13,6 +13,17 @@ void SensorReader::run() {
 
 void SensorReader::readSensor()
 {
+    /*serial.setPortName("COM3");
+    serial.open(QIODevice::ReadWrite);
+    serial.setBaudRate(QSerialPort::Baud9600);
+    serial.setDataBits(QSerialPort::Data8);
+    serial.setParity(QSerialPort::NoParity);
+    serial.setStopBits(QSerialPort::OneStop);
+    serial.setFlowControl(QSerialPort::NoFlowControl);
+    while (!serial.isOpen()) {
+        serial.open(QIODevice::ReadWrite);
+    }*/
+
     int counter = 0;
     while(true)
     {
