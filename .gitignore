@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/git,c++,tortoisegit,visualstudiocode
+# Created by https://www.gitignore.io/api/qt,git,c++,processing,tortoisegit,visualstudiocode
 
 ### C++ ###
 # Prerequisites
@@ -50,6 +50,53 @@
 *_LOCAL_*.txt
 *_REMOTE_*.txt
 
+### Processing ###
+.DS_Store
+applet
+application.linux-arm64
+application.linux-armv6hf
+application.linux32
+application.linux64
+application.windows32
+application.windows64
+application.macosx
+
+### Qt ###
+# C++ objects and libs
+
+# Qt-es
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+
+# Qt unit tests
+target_wrapper.*
+
+# QtCreator
+*.autosave
+
+# QtCreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+# QtCreator CMake
+CMakeLists.txt.user*
+
 ### TortoiseGit ###
 # Project-level settings
 /.tgitconfig
@@ -62,4 +109,4 @@
 !.vscode/extensions.json
 
 
-# End of https://www.gitignore.io/api/git,c++,tortoisegit,visualstudiocode
+# End of https://www.gitignore.io/api/qt,git,c++,processing,tortoisegit,visualstudiocode
