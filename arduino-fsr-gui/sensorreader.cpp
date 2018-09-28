@@ -13,7 +13,7 @@ void SensorReader::run() {
 
 void SensorReader::readSensor()
 {
-    /*serial.setPortName("COM3");
+    serial.setPortName("COM3");
     serial.open(QIODevice::ReadWrite);
     serial.setBaudRate(QSerialPort::Baud9600);
     serial.setDataBits(QSerialPort::Data8);
@@ -22,14 +22,28 @@ void SensorReader::readSensor()
     serial.setFlowControl(QSerialPort::NoFlowControl);
     while (!serial.isOpen()) {
         serial.open(QIODevice::ReadWrite);
-    }*/
+    }
 
     int counter = 0;
-    while(true)
+    unsigned long val = 0;
+
+    while(!shouldStop)
     {
         counter++;
         //qDebug() << "emitting value " << QString::number(counter);
-        Q_EMIT messageSensor(QString::number(counter));
-        QThread::sleep(1);
+
+        if(counter % 100 == 0) {
+            val = (unsigned long)122427;
+        } else if (counter % 90 == 0) {
+            val = (unsigned long)123234;
+        }else {
+            val = (unsigned long)94862;
+
+        }
+
+        qDebug() << "emitting value " << QString::number(val);
+        Q_EMIT messageSensor(val);
+
+        QThread::msleep(30);
     }
 }

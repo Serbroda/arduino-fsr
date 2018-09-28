@@ -18,13 +18,14 @@ public:
     ~MainWindow();
 
 public Q_SLOTS:
-    void onValue(QString);
+    void onValue(unsigned long);
+    void realtimePlot();
 
 private:
     Ui::MainWindow *ui;
     SensorReader sensorReader;
-    QCustomPlot *mPlot;
-    QPointer<QCPGraph> mGraph1;
+    ulong adc_data_g;
+    QTimer timer_plot;
 };
 
 #endif // MAINWINDOW_H
