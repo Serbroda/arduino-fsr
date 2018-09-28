@@ -1,6 +1,7 @@
 #include <QtWidgets>
-#include "sensorreader.h"
 #include "mainwindow.h"
+#include <QObject>
+#include "sensorreader.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

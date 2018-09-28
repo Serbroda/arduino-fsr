@@ -28,7 +28,7 @@ void SensorReader::readSensor()
     while(true)
     {
         counter++;
-        qDebug() << "emitting value " << QString::number(counter);
+        //qDebug() << "emitting value " << QString::number(counter);
         Q_EMIT messageSensor(QString::number(counter));
         QThread::sleep(1);
     }
