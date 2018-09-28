@@ -1,6 +1,4 @@
-#include <QtWidgets/QApplication>
-#include <QThread>
-#include <QtCore>
+#include <QtWidgets>
 #include "sensorreader.h"
 #include "mainwindow.h"
 
@@ -13,7 +11,7 @@ int main(int argc, char *argv[]) {
     /*SensorReader reader;
     reader.start();
 
-    QObject::connect(&reader, SIGNAL(messageSensor(QString)), window, SLOT(onValue(QString)));*/
+    QObject::connect(&reader, SIGNAL(messageSensor(QString)), w, SLOT(onValue(QString)));*/
 
     return a.exec();
 }

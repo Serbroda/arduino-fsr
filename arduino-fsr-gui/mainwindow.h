@@ -14,6 +14,10 @@ class MainWindow : public QWidget
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void onShow(QShowEvent* event);
+
+public Q_SLOTS:
+    void onValue(QString);
 
 private:
     Ui::MainWindow *ui;
