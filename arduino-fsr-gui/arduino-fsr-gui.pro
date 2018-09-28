@@ -1,10 +1,16 @@
 QT += charts
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 SOURCES += \
     main.cpp \
-    qtsensorgraph.cpp \
-    sensorreader.cpp
+    sensorreader.cpp \
+    qcustomplot.cpp \
+    mainwindow.cpp
 
 HEADERS += \
-    qtsensorgraph.h \
-    sensorreader.h
+    sensorreader.h \
+    qcustomplot.h \
+    mainwindow.h
+
+FORMS += \
+    mainwindow.ui
