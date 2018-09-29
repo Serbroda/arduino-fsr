@@ -76,6 +76,7 @@ void printMonitor(float s)
     }
 }
 
+// Fügt ein Wert in das Array hinzu
 void addValue(long value)
 {
     if (counter < size)
@@ -99,6 +100,7 @@ void addValue(long value)
     }
 }
 
+// Berechnet den Mittelwert der Werte aus dem Array
 float calculateAverage()
 {
     float avg = 0;
@@ -115,6 +117,7 @@ float calculateAverage()
     return avg / size;
 }
 
+// Berechnet den arithmetischen Mittelwert des arrays
 float calculateArithmeticAverage()
 {
     float average = calculateAverage();
