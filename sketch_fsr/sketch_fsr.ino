@@ -1,7 +1,7 @@
 
-int fsrPin = 0;     // the FSR and 10K pulldown are connected to a0
-int fsrReading;     // the analog reading from the FSR resistor divider
-int fsrVoltage;
+int fsrPin = 0;   // Port 0 definieren
+int fsrReading;   // Analoges Ergebnis aus Port 0
+int fsrVoltage;   // Umgerechnetes Ergebnis in Volt
  
 void setup(void) {
   // We'll send debugging information via the Serial monitor
@@ -9,10 +9,10 @@ void setup(void) {
 }
  
 void loop(void) {
-  fsrReading = analogRead(fsrPin);  
+  fsrReading = readValue();  
  
-  //Serial.print("Analog reading = ");
-  //Serial.print(fsrReading);     // the raw analog reading
+  Serial.print("Analog reading = ");
+  Serial.println(fsrReading);     // the raw analog reading
 
   fsrVoltage = map(fsrReading, 0, 1023, 0, 5000);
   Serial.print("Voltage reading in mV = ");
@@ -30,6 +30,13 @@ void loop(void) {
   } else {
     Serial.println(" - Big squeeze");
   }
-  delay(100);
+
+  delay(1000);
 } 
+
+int readValue() {
+  return analogRead(fsrPin);
+}
+
+
 

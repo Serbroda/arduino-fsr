@@ -13,7 +13,9 @@ void SensorReader::run() {
 
 void SensorReader::readSensor()
 {
-    serial.setPortName("COM3");
+    qDebug() << "Defining and opening serial port";
+
+    serial.setPortName("COM4");
     serial.open(QIODevice::ReadWrite);
     serial.setBaudRate(QSerialPort::Baud9600);
     serial.setDataBits(QSerialPort::Data8);
@@ -24,7 +26,9 @@ void SensorReader::readSensor()
         serial.open(QIODevice::ReadWrite);
     }
 
-    int counter = 0;
+    qDebug() << "Serial port is ready for reading...";
+
+    /*int counter = 0;
     unsigned long val = 0;
 
     while(!shouldStop)
@@ -45,5 +49,5 @@ void SensorReader::readSensor()
         Q_EMIT messageSensor(val);
 
         QThread::msleep(30);
-    }
+    }*/
 }
