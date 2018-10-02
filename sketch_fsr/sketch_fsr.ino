@@ -1,13 +1,14 @@
 #include <Arduino.h>
 
 int fsrPin = 0;  // Pin A0 definieren
-int sensorValue; // Analoges Ergebnis aus Pin A0
-int voltage;     // Umgerechnetes Ergebnis in Volt
+int sensorValue; // Analoges Ergebnis aus Pin A0 in bits
+long voltage;     // Umgerechnetes Ergebnis in Volt
+int weight;
+float arithmeticAverage;
 
-const int size = 5;
-
+int size = 5;
 long voltageArray[size];
-int counter = 0;
+
 
 // Einstieg für Arduino, bevor loop()
 void setup(void)
@@ -15,31 +16,95 @@ void setup(void)
     Serial.begin(115200); // Baudrate setzen
 }
 
+
+/*
+ * ----------------------
+ *    Berechnungen
+ * -----------------------
+ */
+
+// Berechnet den Mittelwert der Werte aus dem Array
+float calculateAverage()
+{
+    float sum = 0;
+    for (int i = 0; i < size; i++)
+    {
+        sum = sum + voltageArray[i];
+    }
+
+    return sum / size;
+}
+
+// Berechnet den arithmetischen Mittelwert des arrays
+float calculateArithmeticAverage()
+{
+    float average = calculateAverage();
+
+    float s = 0;
+    for (int i = 0; i < size; i++)
+    {
+        s = s + powf(average - voltageArray[i], 2);
+    }
+
+    s = s / size;
+    s = powf(s, 0.5);
+    return s;
+}
+
 // Berechnet Volt aus dem analogen Ergebnis
-long calculateVoltage(long value)
+long calculateVoltage()
 {
     long bitMin = 0;
     long bitMax = 1023;
     long voltMin = 0;
     long voltMax = 5000;
-    return (value - bitMin) * (voltMax - voltMin) / (bitMax - bitMin) + voltMin;
+    return (sensorValue - bitMin) * (voltMax - voltMin) / (bitMax - bitMin) + voltMin; // gemessener Bitwert * (Volt pro Bit)
 }
+
+int calculateWeight() {
+  long voltMin = 0;
+  long voltMax = 2700;
+  long weightMin = 0;
+  long weightMax = 300;
+    
+  if(voltage <= 2700) {
+    
+  } else if (voltage <= 3500) {
+    voltMin = 2701;
+    voltMax = 3500;
+    weightMin = 301;
+    weightMax = 500;
+  } else {
+    voltMin = 3501;
+    voltMax = 3780;
+    weightMin = 501;
+    weightMax = 650;
+  }
+
+  return (voltage - voltMin) * (weightMax - weightMin) / (voltMax - voltMin) + weightMin; // Volt Fallabhängig in Gramm umrechnen
+}
+
+
+/*
+ * ----------------------
+ *    Ausgaben
+ * -----------------------
+ */
 
 void printPlotter()
 {
     Serial.println(voltage);
 }
 
-void printFoto(float s)
-{
-    if (s > 1000)
-    {
-        Serial.println("Foto!!!!!");
-    }
+
+void printWeight(int value) {
+  Serial.print("Gewicht = ");
+  Serial.print(weight);
+  Serial.println("g");
 }
 
 // Werte auf dem seriellen Monitor ausgeben
-void printMonitor(float s)
+void printMonitor()
 {
 
     Serial.print("Wert: Sensor = ");
@@ -47,7 +112,8 @@ void printMonitor(float s)
     Serial.print(",    mV = ");
     Serial.print(voltage);
     Serial.print(",    s = ");
-    Serial.print(s);
+    Serial.println(arithmeticAverage);
+
 
     /*if (sensorValue < 10)
     {
@@ -70,86 +136,59 @@ void printMonitor(float s)
         Serial.println(" - Hart gedrückt");
     }*/
 
-    if (s > 1000)
+    if (arithmeticAverage > 1000)
     {
         Serial.println("---------------- FOTO ------------------");
     }
+
 }
+
+
+/*
+ * ----------------------
+ *    Loop
+ * -----------------------
+ */
 
 // Fügt ein Wert in das Array hinzu
 void addValue(long value)
 {
-    if (counter < size)
-    {
-        voltageArray[counter] = value;
-        counter++;
-    }
-    else
-    {
-        /*for (int i = 0; i < size, i++)
-        {
-            // solange die größe des arrays nicht erreicht ist
-            // sind wir in diesem block
-        }*/
 
-        voltageArray[0] = voltageArray[1];
-        voltageArray[1] = voltageArray[2];
-        voltageArray[2] = voltageArray[3];
-        voltageArray[3] = voltageArray[4];
-        voltageArray[4] = value;
-    }
-}
-
-// Berechnet den Mittelwert der Werte aus dem Array
-float calculateAverage()
-{
-    float avg = 0;
-    for (int i = 0; i < size; i++)
+    for (int i = 1; i < size; i++)
     {
-        avg = avg + voltageArray[i];
+        voltageArray[i-1] = voltageArray[i];
     }
 
-    /*avg = avg + voltageArray[0];
-    avg = avg + voltageArray[1];
-    avg = avg + voltageArray[2];
-    avg = avg + voltageArray[3];
-    avg = avg + voltageArray[4];*/
-    return avg / size;
-}
+    voltageArray[size-1] = value;
 
-// Berechnet den arithmetischen Mittelwert des arrays
-float calculateArithmeticAverage()
-{
-    float average = calculateAverage();
-
-    float s = 0;
-    for (int i = 0; i < size; i++)
-    {
-        s = s + powf(average - voltageArray[i], 2);
-    }
-
-    s = s / size;
-    s = powf(s, 0.5);
-    return s;
+    /*voltageArray[0] = voltageArray[1];
+    voltageArray[1] = voltageArray[2];
+    voltageArray[2] = voltageArray[3];
+    voltageArray[3] = voltageArray[4];
+    
+    voltageArray[4] = value;*/
+   
 }
 
 void loop(void)
 {
-    // 1. Sensor über definierten Pin auslesen
+    // 1. SensorPin auslesen in Bits
     sensorValue = analogRead(fsrPin);
 
     // 2. Wert in Volt umrechnen
-    voltage = calculateVoltage(sensorValue);
+    voltage = calculateVoltage();
 
-    float arithmeticAverage = calculateArithmeticAverage();
+    arithmeticAverage = calculateArithmeticAverage();//der Mittelwert für den Trigger wird berechnet
 
-    addValue(voltage);
+    addValue(voltage); //der Spannungsstring wird mit Werten 
 
-    // 3. Wert ausgeben
-    printMonitor(arithmeticAverage);
-    //printPlotter();
-    //printFoto(arithmeticAverage);
+    weight = calculateWeight();
+    
 
-    delay(10);
+    // 3. Wert ausgeben in Monitor oder Plotter
+    //printMonitor();
+    printPlotter();
+    printWeight();
+
+    delay(100);
 }
-
