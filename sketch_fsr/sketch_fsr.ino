@@ -62,13 +62,21 @@ long calculateVoltage()
 }
 
 int calculateWeight() {
-  long voltMin = 0;
-  long voltMax = 2700;
-  long weightMin = 0;
-  long weightMax = 300;
-    
-  if(voltage <= 2700) {
-    
+  long voltMin;
+  long voltMax;
+  long weightMin;
+  long weightMax;
+
+  if(voltage <= 1300) {
+    voltMin = 0;
+    voltMax = 1300;
+    weightMin = 0;
+    weightMax = 90;
+  } else if(voltage <= 2700) {
+    voltMin = 1301;
+    voltMax = 2700;
+    weightMin = 91;
+    weightMax = 300;
   } else if (voltage <= 3500) {
     voltMin = 2701;
     voltMax = 3500;
@@ -187,7 +195,7 @@ void loop(void)
 
     // 3. Wert ausgeben in Monitor oder Plotter
     //printMonitor();
-    printPlotter();
+    //printPlotter();
     printWeight();
 
     delay(100);
