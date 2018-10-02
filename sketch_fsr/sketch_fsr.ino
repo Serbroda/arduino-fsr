@@ -6,7 +6,7 @@ long voltage;     // Umgerechnetes Ergebnis in Volt
 int weight;
 float arithmeticAverage;
 
-int size = 5;
+const int size = 5;
 long voltageArray[size];
 
 
@@ -97,7 +97,7 @@ void printPlotter()
 }
 
 
-void printWeight(int value) {
+void printWeight() {
   Serial.print("Gewicht = ");
   Serial.print(weight);
   Serial.println("g");
